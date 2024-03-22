@@ -1,39 +1,42 @@
 class Song:
-    count =0
-    genres = []
-    artists = []
-    genre_count ={}
-    artist_count ={}
+    # Class attributes to store information about songs
+    count = 0
+    genres = set()
+    artists = set()
+    genre_count = {}
+    artist_count = {}
+
     def __init__(self, name, artist, genre):
-       self.name = name
-       self.artist = artist
-       self.genre = genre
-       Song.add_song_to_count()
-       Song.add_to_genres(genre)
-       Song.add_to_artists(artist)
-       Song.add_to_artist_count()
-       Song.add_to_genre_count()
+        # Instance attributes
+        self.name = name
+        self.artist = artist
+        self.genre = genre
+
+        # Update class attributes
+        Song.count += 1
+        Song.genres.add(genre)
+        Song.artists.add(artist)
+
+        # Update genre_count
+        Song.genre_count[genre] = Song.genre_count.get(genre, 0) + 1
+
+        # Update artist_count
+        Song.artist_count[artist] = Song.artist_count.get(artist, 0) + 1
+
     @classmethod
     def add_song_to_count(cls):
-            cls.count += 1
+        cls.count += 1
 
-    @classmethod
+    def add_to_genres(self):
+        if self.genre not in Song.genres:
+            Song.genres.add(self.genre)
 
-    def add_to_genres(cls, genre):
-        if genre not in cls.genres:
-            cls.genres.append(genre)
-            cls.genre_count[genre] = cls.genre_count.get(genre, 0) + 1
-    @classmethod
-    def add_to_artists(cls, artist):
-        if artist not in cls.artists:
-            cls.artists.append(artist)
-            cls.artist_count[artist] = cls.artist_count.get(artist, 0) + 1
-    @classmethod
-    def add_to_genre_count(cls):
-            cls.genre_count = {genre: cls.genres.count(genre) for genre in cls.genres}
-    @classmethod
-    def add_to_artist_count(cls):
-            cls.artist_count = {artist: cls.artists.count(artist) for artist in cls.artists}
+    def add_to_artists(self):
+        if self.artist not in Song.artists:
+            Song.artists.add(self.artist)
 
-    pass
-   
+    def add_to_genre_count(self):
+        Song.genre_count[self.genre] = Song.genre_count.get(self.genre, 0) + 1
+
+    def add_to_artist_count(self):
+        Song.artist_count[self.artist] = Song.artist_count.get(self.artist, 0) + 1
